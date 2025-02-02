@@ -12,7 +12,8 @@ struct list {
 };
 
 struct node {
-    int value;
+    char *key;
+    void *value;
     node_t *prev;
     node_t *next;
 };
@@ -25,11 +26,12 @@ struct node {
  * 
  * @return *node_t
  */
-node_t *NewNode(int value) {
+node_t *NewNode(char *key, void *value) {
     // Allocate memory for node
     node_t *n = malloc(sizeof(node_t));
 
     // Initialize default values
+    n->key = key;
     n->value = value;
     n->prev = NULL;
     n->next = NULL;
@@ -135,8 +137,8 @@ void WalkList(list_t *list) {
 
 
 // List Prepend
-void PrependNode(list_t *list, int value) {
-    node_t *node = NewNode(value);
+void PrependNode(list_t *list, char *key, void *value) {
+    node_t *node = NewNode(key, value);
     if (list->size == 0) {
         list->head = node;
         list->tail = node;
@@ -153,8 +155,8 @@ void PrependNode(list_t *list, int value) {
 
 
 // List Append
-void AppendNode(list_t *list, int value) {
-    node_t *node = NewNode(value);
+void AppendNode(list_t *list, char *key, void *value) {
+    node_t *node = NewNode(key, value);
 
     if (list->size == 0) {
         list->head = node;
@@ -221,7 +223,7 @@ void MovePrev(list_t *list) {
 
 
 int NodeTest() {
-    node_t *myNode = NewNode(5);
+    node_t *myNode = NewNode("test", 5);
     if (myNode->prev == NULL && myNode->next == NULL) {
 		printf("Before delete: %p\n", (void *)myNode);
 		DeleteNode(&myNode);
