@@ -1,6 +1,7 @@
 #pragma once
 #include <stdlib.h>
 #include <assert.h>
+#include <string.h>
 
 
 /**
@@ -14,6 +15,8 @@
 
 
 typedef struct list list_t;
+
+typedef enum {INT, FLOAT, STRING} ValueType;
 
 
 /**
@@ -61,11 +64,15 @@ void DeleteHead(list_t *list);
  * 
  * @param *list_t Pointer to list to prepend node to
  * 
- * @param int Value for prepended node to hold
+ * @param char* Key for prepended node to hold
+ * 
+ * @param void* Value for prepended node to hold
+ * 
+ * @param ValueType ValueType for prepended node to hold
  * 
  * @return void
  */
-void PrependNode(list_t *list, int value);
+void PrependNode(list_t *list, char *key, void *value, ValueType valueType);
 
 
 /**
@@ -73,11 +80,15 @@ void PrependNode(list_t *list, int value);
  * 
  * @param *list_t Pointer to list to append node to
  * 
- * @param int Value for appended node to hold
+ * @param char* Key for prepended node to hold
+ * 
+ * @param void* Value for prepended node to hold
+ * 
+ * @param ValueType ValueType for prepended node to hold
  * 
  * @return void
  */
-void AppendNode(list_t *list, int value);
+void AppendNode(list_t *list, char *key, void *value, ValueType valueType);
 
 
 /**
@@ -85,9 +96,9 @@ void AppendNode(list_t *list, int value);
  * 
  * @param *list_t pointer to list_t object
  * 
- * @return int holding value of head node
+ * @return Value of head node
  */
-int GetHeadNode(list_t *list);
+void *GetHeadNode(list_t *list);
 
 
 /**
@@ -95,9 +106,9 @@ int GetHeadNode(list_t *list);
  * 
  * @param *list_t pointer to list_t object
  * 
- * @return int holding value of tail node
+ * @return Value of tail node
  */
-int GetTailNode(list_t *list);
+void* GetTailNode(list_t *list);
 
 
 /**
@@ -105,9 +116,9 @@ int GetTailNode(list_t *list);
  * 
  * @param *list_t pointer to list_t object
  * 
- * @return int holding value of node cursor points to
+ * @return Value of node cursor points to
  */
-int GetCursorNode(list_t *list);
+void* GetCursorNode(list_t *list);
 
 
 /**
@@ -154,3 +165,5 @@ void WalkList(list_t *list);
  * TODO: DELETE WHEN DONE
  */
 int NodeTest();
+
+

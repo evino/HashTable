@@ -3,6 +3,8 @@
 
 typedef struct node node_t;
 
+
+
 struct list {
     int size;        // Current size of list
     int index;       // Current index of cursor (starts at 0)
@@ -12,6 +14,7 @@ struct list {
 };
 
 struct node {
+    ValueType valueType;
     char *key;
     void *value;
     node_t *prev;
@@ -26,17 +29,36 @@ struct node {
  * 
  * @return *node_t
  */
-node_t *NewNode(char *key, void *value) {
+node_t *NewNode(char *key, void *value, ValueType valueType) {
     // Allocate memory for node
     node_t *n = malloc(sizeof(node_t));
 
     // Initialize default values
     n->key = key;
     n->value = value;
+    n->valueType = valueType;
     n->prev = NULL;
     n->next = NULL;
 
     return n;
+}
+
+void PrintValue(node_t *node) {
+    assert(node != NULL);
+
+    switch (node->valueType) {
+        case INT:
+            printf("%d\n", *(int *)node->value);
+            break;
+        case FLOAT:
+            printf("%f\n", *(float *)node->value);
+        case STRING:
+            printf("%s\n", (char *)node->value);
+        
+        default:
+            break;
+    }
+
 }
 
 
@@ -106,7 +128,9 @@ void DeleteList(list_t **list) {
         // MoveFront(*list);
 
         while ((*list)->head != NULL) {
-            printf("Deleting: %d\n", GetHeadNode(*list));
+            
+            printf("Deleting: ");
+            PrintValue(GetHeadNode(*list));
             DeleteHead(*list);
             // DeleteNode(&((*list)->cursor));
             // MoveNext(*list);
@@ -126,7 +150,7 @@ void WalkList(list_t *list) {
 
     MoveFront(list);
     do {
-        printf("%d ", GetCursorNode(list));
+        PrintValue(GetCursorNode(list));
         MoveNext(list);
     }
     while(list->cursor != list->tail);
@@ -137,8 +161,8 @@ void WalkList(list_t *list) {
 
 
 // List Prepend
-void PrependNode(list_t *list, char *key, void *value) {
-    node_t *node = NewNode(key, value);
+void PrependNode(list_t *list, char *key, void *value, ValueType valueType) {
+    node_t *node = NewNode(key, value, valueType);
     if (list->size == 0) {
         list->head = node;
         list->tail = node;
@@ -155,8 +179,8 @@ void PrependNode(list_t *list, char *key, void *value) {
 
 
 // List Append
-void AppendNode(list_t *list, char *key, void *value) {
-    node_t *node = NewNode(key, value);
+void AppendNode(list_t *list, char *key, void *value, ValueType valueType) {
+    node_t *node = NewNode(key, value, valueType);
 
     if (list->size == 0) {
         list->head = node;
@@ -174,23 +198,23 @@ void AppendNode(list_t *list, char *key, void *value) {
 
 
 // Return value of head node
-int GetHeadNode(list_t *list) {
+void* GetHeadNode(list_t *list) {
     assert (list->size > 0);
-    return list->head->value;
+    return list->head;
 }
 
 
 // Return value of tail node
-int GetTailNode(list_t *list) {
+void* GetTailNode(list_t *list) {
     assert (list->size > 0);
-    return list->tail->value;
+    return list->tail;
 }
 
 
 // Return value of current cursor
-int GetCursorNode(list_t *list) {
+void* GetCursorNode(list_t *list) {
     assert(list->cursor != NULL && "Cursor value is NULL");
-    return list->cursor->value;
+    return list->cursor;
 }
 
 
@@ -223,9 +247,13 @@ void MovePrev(list_t *list) {
 
 
 int NodeTest() {
-    node_t *myNode = NewNode("test", 5);
+    int val = 5;
+    node_t *myNode = NewNode("test", &val, INT);
     if (myNode->prev == NULL && myNode->next == NULL) {
-		printf("Before delete: %p\n", (void *)myNode);
+        // printf("Node holds: ", );
+        printf("db0\n");
+        printf("Node holds "); PrintValue(myNode); printf(" as value.\n");
+		printf("\nBefore delete: %p\n", (void *)myNode);
 		DeleteNode(&myNode);
 		printf("After delete: %p\n", (void *)myNode);
         return 0;
