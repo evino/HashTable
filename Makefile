@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -Werror -Wpedantic -g
 # Source Files
-SRC = client.c
+SRC = client.c list.c
 # Object Files
 OBJS = $(SRC:.c=.o)
 
