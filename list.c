@@ -48,7 +48,7 @@ void PrintValue(node_t *node) {
 
     switch (node->valueType) {
         case INT:
-            printf("%d\n", *(int *)node->value);
+            printf("{%s: %d}\n", node->key, *(int *)node->value);
             break;
         case FLOAT:
             printf("%f\n", *(float *)node->value);
