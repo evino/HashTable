@@ -84,6 +84,11 @@ list_t *NewList() {
 	// Allocate memory for list
 	list_t *l = malloc(sizeof(list_t));
 
+	if (!l) {
+		perror("Failed to allocate memory");
+		exit(EXIT_FAILURE);
+	}
+
 	l->size = 0;
 	l->index = -1;
 	l->cursor = NULL;
@@ -91,6 +96,58 @@ list_t *NewList() {
 	l->tail = NULL;
 
 	return l;
+}
+
+list_t **NewListArr(size_t size) {
+	list_t **arr = malloc(size * sizeof(list_t *));
+	for (size_t i = 0; i < size; i++) {
+		arr[i] = NewList();
+		printf("New list created at index %ld\n", i);
+	}
+
+	return arr;
+}
+
+void DeleteListArr(list_t ***arr, size_t size) {
+	if (arr != NULL && *arr != NULL) {
+		printf("size is %ld\n", size);
+		for (size_t i = 0; i < size; i++) {
+			printf("Deleting list at index %ld\n", i);
+			DeleteList(&(*arr)[i]);
+		}
+		free(*arr);
+		*arr = NULL;
+	}
+
+	return;
+}
+
+// List Destructor
+void DeleteList(list_t **list) {
+	/**
+	 * TODO: Need to implement with iterating over list
+	 */
+	if (list != NULL || *list != NULL) {
+		printf("Something is not null\n");
+		// MoveFront(*list);
+
+		while ((*list)->head != NULL) {
+			
+			printf("Deleting: ");
+			PrintValue(GetHeadNode(*list));
+			DeleteHead(*list);
+			// DeleteNode(&((*list)->cursor));
+			// MoveNext(*list);
+		};
+		printf("No more nodes in list to delete\n");
+
+		free(*list);
+		*list = NULL;
+	} else {
+		printf("List is already null");
+	}
+
+	return;
 }
 
 
@@ -116,31 +173,6 @@ void DeleteCursor(list_t *list) {
 	(list->cursor->prev)->next = list->cursor->next;
 	list->cursor->next->prev = list->cursor->prev;
 	DeleteNode(&(list->cursor));
-}
-
-
-// List Destructor
-void DeleteList(list_t **list) {
-	/**
-	 * TODO: Need to implement with iterating over list
-	 */
-	if (list != NULL || *list != NULL) {
-		// MoveFront(*list);
-
-		while ((*list)->head != NULL) {
-			
-			printf("Deleting: ");
-			PrintValue(GetHeadNode(*list));
-			DeleteHead(*list);
-			// DeleteNode(&((*list)->cursor));
-			// MoveNext(*list);
-		};
-
-		free(*list);
-		*list = NULL;
-	}
-
-	return;
 }
 
 

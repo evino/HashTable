@@ -162,6 +162,27 @@ void WalkList(list_t *list);
 
 
 /**
+ * @brief Create an array of lists
+ * 
+ * @param size_t ArraySize
+ * 
+ * @return **list_t (Array of lists)
+ */
+list_t **NewListArr(size_t size);
+
+
+/**
+ * @brief Deletes array of lists
+ * 
+ * @param ***listArr Array of lists
+ * 
+ * @param size_t size of array
+ * 
+ * @return void
+ */
+void DeleteListArr(list_t ***arr, size_t size);
+
+/**
  * TODO: DELETE WHEN DONE
  */
 int NodeTest();
