@@ -24,3 +24,27 @@ void DeleteTable(table_t **table) {
 
 	return;
 }
+
+
+unsigned long HashDJB2(const char *key) {
+	unsigned long hash = 5381;
+	int c;
+	while ((c = *key++)) { // Iterate through characters
+		hash = ((hash << 5) + hash) + c;  // hash * 33 + c
+	}
+
+	return hash;
+}
+
+size_t GetIndex(const char *key, size_t tableSize) {
+	unsigned long hash = HashDJB2(key);
+	size_t index = hash % tableSize;
+
+	return index;
+}
+
+void InsertPair(table_t * table, const char *key, void *value) {
+	size_t index = GetIndex(key, table->size);
+
+	AppendNode(table->arr[index], key, value, STRING);
+}
