@@ -15,7 +15,7 @@ struct list {
 
 struct node {
 	ValueType valueType;
-	char *key;
+	const char *key;
 	void *value;
 	node_t *prev;
 	node_t *next;
@@ -29,7 +29,7 @@ struct node {
  * 
  * @return *node_t
  */
-node_t *NewNode(char *key, void *value, ValueType valueType) {
+node_t *NewNode(const char *key, void *value, ValueType valueType) {
 	// Allocate memory for node
 	node_t *n = malloc(sizeof(node_t));
 
@@ -53,7 +53,7 @@ void PrintValue(node_t *node) {
 		case FLOAT:
 			printf("%f\n", *(float *)node->value);
 		case STRING:
-			printf("%s\n", (char *)node->value);
+			printf("%s\n", (const char *)node->value);
 		
 		default:
 			break;
@@ -193,7 +193,7 @@ void WalkList(list_t *list) {
 
 
 // List Prepend
-void PrependNode(list_t *list, char *key, void *value, ValueType valueType) {
+void PrependNode(list_t *list, const char *key, void *value, ValueType valueType) {
 	node_t *node = NewNode(key, value, valueType);
 	if (list->size == 0) {
 		list->head = node;
@@ -211,7 +211,7 @@ void PrependNode(list_t *list, char *key, void *value, ValueType valueType) {
 
 
 // List Append
-void AppendNode(list_t *list, char *key, void *value, ValueType valueType) {
+void AppendNode(list_t *list, const char *key, void *value, ValueType valueType) {
 	node_t *node = NewNode(key, value, valueType);
 
 	if (list->size == 0) {

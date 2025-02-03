@@ -72,7 +72,7 @@ void DeleteHead(list_t *list);
  * 
  * @return void
  */
-void PrependNode(list_t *list, char *key, void *value, ValueType valueType);
+void PrependNode(list_t *list, const char *key, void *value, ValueType valueType);
 
 
 /**
@@ -88,7 +88,7 @@ void PrependNode(list_t *list, char *key, void *value, ValueType valueType);
  * 
  * @return void
  */
-void AppendNode(list_t *list, char *key, void *value, ValueType valueType);
+void AppendNode(list_t *list, const char *key, void *value, ValueType valueType);
 
 
 /**
