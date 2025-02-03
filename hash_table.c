@@ -16,7 +16,7 @@ table_t *NewTable(size_t size) {
 }
 
 void DeleteTable(table_t **table) {
-	if (table != NULL || *table != NULL) {
+	if (table != NULL && *table != NULL) {
 		DeleteListArr(&((*table)->arr), (*table)->size);
 		free(*table);
 		*table = NULL;

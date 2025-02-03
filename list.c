@@ -70,7 +70,7 @@ void PrintValue(node_t *node) {
  * @return void
  */
 void DeleteNode(node_t **node) {
-	if (node != NULL || *node != NULL) {
+	if (node != NULL && *node != NULL) {
 		free(*node);
 		*node = NULL;
 	}
@@ -127,7 +127,7 @@ void DeleteList(list_t **list) {
 	/**
 	 * TODO: Need to implement with iterating over list
 	 */
-	if (list != NULL || *list != NULL) {
+	if (list != NULL && *list != NULL) {
 		printf("Something is not null\n");
 		// MoveFront(*list);
 
