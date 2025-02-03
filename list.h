@@ -12,11 +12,26 @@
  * @author Evin Odisho
  */
 
-
-
 typedef struct list list_t;
-
+typedef struct node node_t;
 typedef enum {INT, FLOAT, STRING} ValueType;
+
+struct list {
+	int size;        // Current size of list
+	int index;       // Current index of cursor (starts at 0)
+	node_t *cursor;  // Current node cursor points to
+	node_t *head;    // Head node of list
+	node_t *tail;    // Tail node of list
+};
+
+struct node {
+	ValueType valueType;
+	const char *key;
+	void *value;
+	node_t *prev;
+	node_t *next;
+};
+
 
 
 /**
@@ -98,7 +113,7 @@ void AppendNode(list_t *list, const char *key, void *value, ValueType valueType)
  * 
  * @return Value of head node
  */
-void *GetHeadNode(list_t *list);
+node_t *GetHeadNode(list_t *list);
 
 
 /**
@@ -108,7 +123,7 @@ void *GetHeadNode(list_t *list);
  * 
  * @return Value of tail node
  */
-void* GetTailNode(list_t *list);
+node_t *GetTailNode(list_t *list);
 
 
 /**
@@ -118,7 +133,7 @@ void* GetTailNode(list_t *list);
  * 
  * @return Value of node cursor points to
  */
-void* GetCursorNode(list_t *list);
+node_t *GetCursorNode(list_t *list);
 
 
 /**
@@ -188,3 +203,6 @@ void DeleteListArr(list_t ***arr, size_t size);
 int NodeTest();
 
 
+void PrintPair(node_t *node);
+
+const char *GetKey(node_t *node);

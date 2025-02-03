@@ -43,8 +43,35 @@ size_t GetIndex(const char *key, size_t tableSize) {
 	return index;
 }
 
-void InsertPair(table_t * table, const char *key, void *value) {
+void InsertPair(table_t * table, const char *key, void *value, ValueType valueType) {
 	size_t index = GetIndex(key, table->size);
 
-	AppendNode(table->arr[index], key, value, STRING);
+	AppendNode(table->arr[index], key, value, valueType);
+	PrintPair(GetTailNode(table->arr[index]));
+	printf(" appended to list at index %ld\n", index);
+
+	return;
+}
+
+
+void GetValue(table_t *table, const char *key) {
+	size_t index = GetIndex(key, table->size);
+
+	// Move list cursor to front
+	MoveFront(table->arr[index]);
+
+	// Iterate through list till key matches the one stored in node and print the pair
+	while (strcmp(GetCursorNode(table->arr[index])->key, key) != 0) {
+		if (GetCursorNode(table->arr[index])->next == NULL) {
+			printf("Key \"%s\" does not exist in table.\n", key);
+			// exit(EXIT_FAILURE);
+			return;
+		}
+		MoveNext(table->arr[index]);
+	}
+	printf("Pair ");
+	PrintPair(GetCursorNode(table->arr[index]));
+	printf(" found in list at index %ld.\n", index);
+
+	return;
 }

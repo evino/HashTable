@@ -1,25 +1,6 @@
 #include "list.h"
 #include <stdio.h>
 
-typedef struct node node_t;
-
-
-
-struct list {
-	int size;        // Current size of list
-	int index;       // Current index of cursor (starts at 0)
-	node_t *cursor;  // Current node cursor points to
-	node_t *head;    // Head node of list
-	node_t *tail;    // Tail node of list
-};
-
-struct node {
-	ValueType valueType;
-	const char *key;
-	void *value;
-	node_t *prev;
-	node_t *next;
-};
 
 
 /**
@@ -43,17 +24,19 @@ node_t *NewNode(const char *key, void *value, ValueType valueType) {
 	return n;
 }
 
-void PrintValue(node_t *node) {
+void PrintPair(node_t *node) {
 	assert(node != NULL);
 
 	switch (node->valueType) {
 		case INT:
-			printf("{%s: %d}\n", node->key, *(int *)node->value);
+			printf("{%s: %d}", node->key, *(int *)node->value);
 			break;
 		case FLOAT:
-			printf("%f\n", *(float *)node->value);
+			printf("{%s: %f}", node->key, *(float *)node->value);
+			break;
 		case STRING:
-			printf("%s\n", (const char *)node->value);
+			printf("{%s: %s}", node->key, (char *)node->value);
+			break;
 		
 		default:
 			break;
@@ -134,7 +117,8 @@ void DeleteList(list_t **list) {
 		while ((*list)->head != NULL) {
 			
 			printf("Deleting: ");
-			PrintValue(GetHeadNode(*list));
+			PrintPair(GetHeadNode(*list));
+			printf("\n");
 			DeleteHead(*list);
 			// DeleteNode(&((*list)->cursor));
 			// MoveNext(*list);
@@ -182,7 +166,8 @@ void WalkList(list_t *list) {
 
 	MoveFront(list);
 	do {
-		PrintValue(GetCursorNode(list));
+		PrintPair(GetCursorNode(list));
+		printf("\n");
 		MoveNext(list);
 	}
 	while(list->cursor != list->tail);
@@ -230,21 +215,21 @@ void AppendNode(list_t *list, const char *key, void *value, ValueType valueType)
 
 
 // Return value of head node
-void* GetHeadNode(list_t *list) {
+node_t *GetHeadNode(list_t *list) {
 	assert (list->size > 0);
 	return list->head;
 }
 
 
 // Return value of tail node
-void* GetTailNode(list_t *list) {
+node_t *GetTailNode(list_t *list) {
 	assert (list->size > 0);
 	return list->tail;
 }
 
 
 // Return value of current cursor
-void* GetCursorNode(list_t *list) {
+node_t *GetCursorNode(list_t *list) {
 	assert(list->cursor != NULL && "Cursor value is NULL");
 	return list->cursor;
 }
@@ -277,6 +262,10 @@ void MovePrev(list_t *list) {
 	return;
 }
 
+const char *GetKey(node_t *node) {
+	return node->key;
+}
+
 
 int NodeTest() {
 	int val = 5;
@@ -284,7 +273,7 @@ int NodeTest() {
 	if (myNode->prev == NULL && myNode->next == NULL) {
 		// printf("Node holds: ", );
 		printf("db0\n");
-		printf("Node holds "); PrintValue(myNode); printf(" as value.\n");
+		printf("Node holds "); PrintPair(myNode); printf(" as value.\n");
 		printf("\nBefore delete: %p\n", (void *)myNode);
 		DeleteNode(&myNode);
 		printf("After delete: %p\n", (void *)myNode);
@@ -292,4 +281,3 @@ int NodeTest() {
 	}
 	return 1;
 }
-

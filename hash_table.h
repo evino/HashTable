@@ -1,7 +1,9 @@
 #pragma once
+#include "list.h"
 #include <stdlib.h>
 #include <stdbool.h>
-#include "list.h"
+#include <string.h>
+#include <stdio.h>
 
 typedef struct table table_t;
 
@@ -54,7 +56,11 @@ size_t GetIndex(const char *key, size_t tableSize);
  * 
  * @param char* key
  * 
- * @param void* value (Must be INT, FLOAT, or STRING)
+ * @param void* value
+ * 
+ * @param ValueType Must be INT, FLOAT, or STRING
  * 
  */
-void InsertPair(table_t * table, const char *key, void *value);
+void InsertPair(table_t * table, const char *key, void *value, ValueType valueType);
+
+void GetValue(table_t *table, const char *key);
