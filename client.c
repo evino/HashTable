@@ -20,7 +20,7 @@ void test_insert_int(table_t *t) {
 	GetValue(t, key1);
 	GetValue(t, key2);
 
-	// Invalid test
+	// Invalid key test test
 	char *invalidKey = "Not Here";
     GetValue(t, invalidKey);
 }
